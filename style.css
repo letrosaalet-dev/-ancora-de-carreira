@@ -1,0 +1,259 @@
+:root {
+  /* Paleta de cores WePeople */
+  --roxo:           #613D98;
+  --roxo-escuro:    #39265E;
+  --verde:          #41A38D;
+  --verde-escuro:   #2B6D5B;
+  --cinza-claro:    #F7F7F9;
+  --cinza-medio:    #878787;
+  --branco:         #FFFFFF;
+  --laranja:        #F27F20;
+}
+
+/* ======= REGRAS GERAIS ======= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--roxo-escuro);
+  background: var(--branco);
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0 60px;
+}
+
+/* ======= CABEÇALHO ======= */
+header.site-header {
+  background: var(--roxo);
+  color: var(--branco);
+  padding: 24px 0;
+  text-align: center;
+  box-shadow: none;
+}
+
+header .header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  max-width: 180px;
+  height: auto;
+}
+
+/* ======= CARDS DAS ETAPAS ======= */
+.form-card {
+  background: var(--branco);
+  border-radius: 16px;
+  box-shadow: none;
+  width: 90%;
+  max-width: 900px;
+  padding: 50px 70px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 800px) {
+  .form-card {
+    padding: 25px 22px;
+  }
+}
+
+/* ======= CAMPOS DE TEXTO ======= */
+label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  border: 1.3px solid #ccc;
+  border-radius: 6px;
+  padding: 9px 10px;
+  font-size: 1rem;
+  background: var(--cinza-claro);
+  transition: border 0.2s, background 0.2s;
+}
+
+input:focus {
+  border-color: var(--verde);
+  background: var(--branco);
+  outline: none;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+/* ======= INSTRUÇÕES E ESCALA ======= */
+.evaluation-instruction {
+  background: rgba(97,61,152,0.05);
+  border-left: 5px solid var(--verde);
+  color: var(--verde-escuro);
+  padding: 12px 18px;
+  margin: 20px 0;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.scale-image-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 30px;
+}
+
+.scale-legend-image {
+  max-width: 700px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+/* ======= PERGUNTAS ======= */
+#perguntasContainer,
+#topScoresContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.question-item {
+  background: var(--cinza-claro);
+  border-radius: 8px;
+  padding: 16px 18px;
+  box-shadow: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.question-item label {
+  flex: 1;
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.question-item input {
+  width: 60px;
+  text-align: center;
+}
+
+/* ======= BOTÕES ======= */
+button,
+input[type="submit"] {
+  background: var(--roxo);
+  color: var(--branco);
+  border: none;
+  border-radius: 8px;
+  padding: 13px 34px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(97,61,152,0.15);
+  transition: all 0.25s ease;
+  align-self: center;
+  margin-top: 25px;
+}
+
+button:hover {
+  background: var(--verde);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(65,163,141,0.20);
+}
+
+button:disabled {
+  background: var(--cinza-medio);
+  cursor: not-allowed;
+}
+
+/* ======= RODAPÉ ======= */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  color: var(--cinza-medio);
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+/* ======= CLASSE OCULTAR (JS VAI USAR) ======= */
+.hidden {
+  display: none !important;
+}
+
+/* Campo com erro visual */
+.input-erro {
+  border: 2px solid var(--laranja);
+  background: #FFF8F4;
+}
+
+fieldset {
+  border: none;         /* remove a linha cinza padrão */
+  padding: 0;           /* tira o preenchimento interno redundante */
+  margin: 0;            /* evita margem dupla */
+}
+
+/* ======= TÍTULOS DOS CONJUNTOS (LEGENDAS) ======= */
+legend {
+  font-weight: 700;          /* deixa em negrito */
+  font-size: 1.3rem;         /* aumenta um pouquinho */
+  color: var(--roxo);        /* usa a cor principal */
+  margin-bottom: 14px;       /* dá respiro abaixo */
+}
+
+/* ======= RESULTADO FINAL ======= */
+.result-box {
+  margin: 25px 0;
+}
+
+.result-box textarea {
+  width: 100%;
+  height: 120px;
+  resize: none;
+  font-family: monospace;
+  font-size: 0.95rem;
+  background: var(--cinza-claro);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 12px;
+  color: var(--roxo-escuro);
+}
+
+/* === Tela final de agradecimento === */
+#thanksSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* centraliza verticalmente */
+  align-items: center;       /* centraliza horizontalmente */
+  min-height: 50vh;         /* ocupa a altura toda da tela */
+  text-align: center;
+  background-color: #ffffff; /* opcional, cor de fundo */
+  color: #3A3365;            /* o roxinho da WePeople */
+  padding: 2rem;
+}
+
+#thanksSection h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+#thanksSection p {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #4B4370; /* tom um pouquinho mais claro pro texto secundário */
+}

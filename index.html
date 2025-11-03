@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Âncora de Carreira - WePeople</title>
+
+  <!-- Ligação com o arquivo de estilos -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Cabeçalho fixo, onde vai o logotipo e o título -->
+  <header class="site-header">
+    <div class="header-content">
+      <img src="logo trad.png" alt="Logo da WePeople" class="header-logo">
+      <h1>Instrumento Âncora de Carreira (Edgar Schein)</h1>
+    </div>
+  </header>
+
+  <main>
+    <!-- ETAPA 1 — Formulário principal -->
+    <section id="mainEvaluationSection" class="form-card">
+      <form id="evaluationForm">
+        <!-- Dados do participante -->
+        <fieldset class="client-info">
+          <legend>Seus Dados</legend>
+          <div class="form-group">
+            <label for="clientName">Nome completo:</label>
+            <input type="text" id="clientName" name="clientName" required>
+          </div>
+          <div class="form-group">
+            <label for="companyName">Empresa:</label>
+            <input type="text" id="companyName" name="companyName" required>
+          </div>
+          <div class="form-group">
+            <label for="clientRole">Cargo:</label>
+            <input type="text" id="clientRole" name="clientRole" required>
+          </div>
+        </fieldset>
+
+        <!-- Instrução e imagem com escala -->
+        <fieldset class="evaluation-questions">
+          <legend>Avalie as afirmações</legend>
+          <p class="evaluation-instruction">
+            Leia atentamente as sentenças abaixo e avalie o quanto cada afirmação se aplica a você, considerando a escala abaixo:
+          </p>
+          <div class="scale-image-wrapper">
+            <img src="escala ancora.png" alt="Escala de avaliação 1 a 6" class="scale-legend-image">
+          </div>
+
+          <!-- Aqui o JavaScript criará as perguntas dinamicamente -->
+          <div id="perguntasContainer"></div>
+        </fieldset>
+
+        <button type="submit">Enviar Avaliação</button>
+      </form>
+    </section>
+
+    <!-- ETAPA 2 — Seleção das afirmações nota 6 -->
+    <section id="selectionStepSection" class="form-card hidden">
+      <h2>Reforçando suas prioridades</h2>
+      <p>
+        Das afirmações que você avaliou com nota 6, selecione
+        as 3 que considera mais importantes para você,
+        será atribuido a elas a pontuação 10.
+      </p>
+      <div id="topScoresContainer"></div>
+
+      <button type="button" id="submitSelectionButton">
+        Confirmar e enviar avaliação final
+      </button>
+      <button type="button" id="backToEvaluationButton">Voltar</button>
+    </section>
+  </main>
+
+<!-- ETAPA 3 — agradeciemnto? -->
+<section id="thanksSection" class="hidden">
+  <div class="thanks-container">
+    <h2>Obrigado por preencher o Âncora de Carreira!</h2>
+    <p>Qualquer dúvida, entre em contato com <a href="mailto:livia.costa@wepeople.com">livia.costa@wepeople.com</a></p>
+  </div>
+</section>
+
+  <!-- Rodapé -->
+  <footer>
+    <p>&copy; 2025 WePeople Treinamento e Desenvolvimento Humano. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- Aqui, mais tarde, conectaremos o script.js -->
+  <script src="script.js"></script>
+</body>
+</html>
