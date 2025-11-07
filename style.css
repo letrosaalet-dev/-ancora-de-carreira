@@ -215,6 +215,7 @@ legend {
   font-size: 1.3rem;         /* aumenta um pouquinho */
   color: var(--roxo);        /* usa a cor principal */
   margin-bottom: 14px;       /* dá respiro abaixo */
+  font-family: "Times New Roman", Times, serif;
   
   
 
@@ -234,7 +235,6 @@ legend {
   border-radius: 6px;
   padding: 12px;
   color: var(--roxo-escuro);
-  font-family: "Times New Roman", Times, serif;
 }
 
 /* === Tela final de agradecimento === */
@@ -244,7 +244,7 @@ legend {
   justify-content: center;   /* centraliza verticalmente */
   padding-top: 3rem; 
   align-items: center;       /* centraliza horizontalmente */
-  min-height: 60vh;         /* ocupa a altura toda da tela */
+  min-height: 50vh;         /* ocupa a altura toda da tela */
   text-align: center;
   background-color: #ffffff; /* opcional, cor de fundo */
   color: #3A3365;            /* o roxinho da WePeople */
