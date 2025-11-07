@@ -240,7 +240,8 @@ legend {
 #thanksSection {
   display: flex;
   flex-direction: column;
-  justify-content: center;   /* centraliza verticalmente */
+  justify-content: flex-start;   /* centraliza verticalmente */
+  padding-top: 3rem; 
   align-items: center;       /* centraliza horizontalmente */
   min-height: 50vh;         /* ocupa a altura toda da tela */
   text-align: center;
