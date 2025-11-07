@@ -214,6 +214,7 @@ legend {
   font-size: 1.3rem;         /* aumenta um pouquinho */
   color: var(--roxo);        /* usa a cor principal */
   margin-bottom: 14px;       /* dá respiro abaixo */
+  font-family: "Times New Roman", Times, serif;
 }
 
 /* ======= RESULTADO FINAL ======= */
@@ -250,6 +251,7 @@ legend {
 #thanksSection h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
+  font-family: "Times New Roman", Times, serif;
 }
 
 #thanksSection p {
