@@ -215,8 +215,8 @@ legend {
   font-size: 1.3rem;         /* aumenta um pouquinho */
   color: var(--roxo);        /* usa a cor principal */
   margin-bottom: 14px;       /* dá respiro abaixo */
-  font-family: "Times New Roman", Times, serif;
-}
+  
+  
 
 /* ======= RESULTADO FINAL ======= */
 .result-box {
@@ -234,13 +234,14 @@ legend {
   border-radius: 6px;
   padding: 12px;
   color: var(--roxo-escuro);
+  font-family: "Times New Roman", Times, serif;
 }
 
 /* === Tela final de agradecimento === */
 #thanksSection {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;   /* centraliza verticalmente */
+  justify-content: center;   /* centraliza verticalmente */
   padding-top: 3rem; 
   align-items: center;       /* centraliza horizontalmente */
   min-height: 60vh;         /* ocupa a altura toda da tela */
