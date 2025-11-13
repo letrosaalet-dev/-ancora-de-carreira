@@ -182,7 +182,7 @@ if (escolhidos.length > 3) {
     respostas: respostas
   };
 
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyybCO86mTX5yYaWMbhSzElFHJhqVLNqb_6mmFR0FpOWxJTBXblA2Fv7yDm3pqfEDFe/exec";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbxEAb-Ou30YCETQnnl_OpmA_lJA-39PDrYP3w0frcUzTZzOSf7V9pRsTrYkr6_5pXIm/exec";
 
   try {
     const res = await fetch(scriptURL, {
