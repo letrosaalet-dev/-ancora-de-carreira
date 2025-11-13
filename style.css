@@ -24,6 +24,13 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+/* títulos (h1, h2, h3...) */
+h1,
+h2,
+h3 {
+  font-family: "Times New Roman", Times, serif;
+}
+
 main {
   flex: 1;
   display: flex;
