@@ -1,0 +1,130 @@
+/* =========================================================
+   Estilos exclusivos do painel interno (admin.html).
+   Reaproveita os tokens de style.css.
+   ========================================================= */
+
+.corpo-admin { background: var(--fundo); }
+
+.main--largo { max-width: 1180px; padding-bottom: 48px; }
+.cabecalho__interno--largo { max-width: 1180px; }
+.cabecalho__acoes { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.usuario { font-size: .85rem; color: var(--texto-suave); }
+
+.cartao--estreito { max-width: 420px; margin-inline: auto; }
+.cartao--tabela { padding: 0; overflow: hidden; }
+
+.botao--mini  { padding: 8px 16px; font-size: .85rem; }
+.botao--bloco { width: 100%; margin-top: 4px; }
+
+.passos { margin: 0 0 20px; padding-left: 20px; color: var(--texto-suave); }
+.passos li { margin-bottom: 9px; }
+.passos code {
+  background: var(--roxo-vapor); color: var(--roxo-escuro);
+  padding: 1px 6px; border-radius: 5px; font-size: .88em;
+}
+
+/* ---------- Filtros ---------- */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: flex-end;
+}
+.campo--inline { margin: 0; flex: 1 1 165px; }
+.campo--inline select,
+.campo--inline input[type="date"],
+.campo--inline input[type="text"] {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  padding: 9px 11px;
+  border: 1.5px solid var(--borda-forte);
+  border-radius: var(--raio-sm);
+  background: var(--papel);
+}
+.campo--inline select:focus-visible,
+.campo--inline input:focus-visible {
+  outline: none; border-color: var(--roxo); box-shadow: 0 0 0 3px var(--roxo-vapor);
+}
+
+/* ---------- Barra de ações ---------- */
+.barra-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.barra-acoes__botoes { margin-left: auto; display: flex; gap: 8px; }
+.selecao-tudo { display: flex; align-items: center; gap: 9px; font-size: .9rem; cursor: pointer; }
+.selecao-tudo input { width: 17px; height: 17px; accent-color: var(--roxo); }
+
+/* ---------- Tabela ---------- */
+.tabela { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.tabela th {
+  text-align: left;
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  font-size: .76rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  background: var(--fundo);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--borda);
+  white-space: nowrap;
+}
+.tabela td { padding: 13px 14px; border-bottom: 1px solid var(--borda); vertical-align: middle; }
+.tabela tbody tr:last-child td { border-bottom: 0; }
+.tabela tbody tr:hover { background: var(--roxo-vapor); }
+.tabela tr.linha--marcada { background: var(--roxo-vapor); }
+.tabela input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--roxo); }
+.col-check { width: 44px; }
+.col-data  { white-space: nowrap; }
+.col-acao  { width: 108px; }
+.celula-nome { font-weight: 600; color: var(--roxo-tinta); }
+
+.etiqueta-ancora {
+  display: inline-block;
+  background: var(--verde-claro);
+  color: #22584A;
+  font-size: .78rem;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.vazio { padding: 40px 20px; text-align: center; color: var(--texto-suave); }
+
+@media (max-width: 860px) {
+  .tabela .col-data, .tabela td:nth-child(4), .tabela th:nth-child(4) { display: none; }
+}
+
+/* ---------- Diálogo de pré-visualização ---------- */
+.dialogo {
+  border: 0;
+  border-radius: var(--raio);
+  padding: 22px;
+  max-width: min(94vw, 1040px);
+  box-shadow: var(--sombra-alta);
+  background: var(--papel);
+  color: var(--texto);
+}
+.dialogo::backdrop { background: rgba(42, 8, 75, .45); backdrop-filter: blur(2px); }
+.dialogo__topo {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 14px;
+}
+.dialogo__topo h3 { margin: 0; font-size: 1.05rem; color: var(--roxo-tinta); }
+.dialogo canvas {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--borda); border-radius: var(--raio-sm);
+  /* xadrez discreto para deixar visível que o PNG tem fundo transparente */
+  background-image:
+    linear-gradient(45deg, #F1EFEA 25%, transparent 25%, transparent 75%, #F1EFEA 75%),
+    linear-gradient(45deg, #F1EFEA 25%, transparent 25%, transparent 75%, #F1EFEA 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+}
+.dialogo__rodape { margin-top: 14px; display: flex; justify-content: flex-end; }

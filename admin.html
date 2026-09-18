@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — Âncora de Carreira | WePeople</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/simbolo-wepeople.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Reddit+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body class="corpo-admin">
+
+<header class="cabecalho">
+  <div class="cabecalho__interno cabecalho__interno--largo">
+    <img src="assets/img/logo-wepeople.svg" alt="WePeople" class="cabecalho__logo">
+    <p class="cabecalho__titulo">
+      <strong>Âncora de Carreira</strong>
+      Painel interno
+    </p>
+    <div class="cabecalho__acoes">
+      <span id="usuarioAtual" class="usuario"></span>
+      <button type="button" class="botao botao--secundario botao--mini oculto" id="btnSair">Sair</button>
+    </div>
+  </div>
+</header>
+<div class="fio-marca"></div>
+
+<main class="main--largo">
+
+  <!-- Supabase ainda não configurado -->
+  <section id="telaConfig" class="oculto">
+    <div class="cartao">
+      <h2 class="cartao__titulo">Falta ligar o Supabase</h2>
+      <p class="cartao__apoio">O painel precisa do banco para listar as respostas.</p>
+      <ol class="passos">
+        <li>Crie um projeto em <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> (plano gratuito atende).</li>
+        <li>Em <strong>SQL Editor</strong>, rode o conteúdo de <code>supabase/schema.sql</code>.</li>
+        <li>Em <strong>Project Settings → API</strong>, copie a <em>Project URL</em> e a chave <em>anon public</em>.</li>
+        <li>Cole as duas em <code>config.js</code> e publique.</li>
+        <li>Em <strong>Authentication → Users</strong>, crie seu usuário com e-mail e senha.</li>
+      </ol>
+      <div class="aviso aviso--alerta">
+        <span aria-hidden="true">!</span>
+        <span>Use a chave <strong>anon public</strong>. Nunca a <code>service_role</code> — ela dá acesso total ao banco.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Login -->
+  <section id="telaLogin" class="oculto">
+    <div class="cartao cartao--estreito">
+      <h2 class="cartao__titulo">Entrar</h2>
+      <p class="cartao__apoio">Acesso restrito à equipe WePeople.</p>
+      <form id="formLogin">
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" autocomplete="username" required>
+        </div>
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" autocomplete="current-password" required>
+        </div>
+        <div id="erroLogin" class="aviso aviso--erro oculto"></div>
+        <button type="submit" class="botao botao--principal botao--bloco" id="btnEntrar">Entrar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Painel -->
+  <section id="telaPainel" class="oculto">
+
+    <div class="cartao">
+      <div class="filtros">
+        <div class="campo campo--inline">
+          <label for="filtroBusca">Buscar por nome</label>
+          <input type="text" id="filtroBusca" placeholder="ex.: Aníbal">
+        </div>
+        <div class="campo campo--inline">
+          <label for="filtroEmpresa">Empresa</label>
+          <select id="filtroEmpresa"><option value="">Todas</option></select>
+        </div>
+        <div class="campo campo--inline">
+          <label for="filtroDe">De</label>
+          <input type="date" id="filtroDe">
+        </div>
+        <div class="campo campo--inline">
+          <label for="filtroAte">Até</label>
+          <input type="date" id="filtroAte">
+        </div>
+        <button type="button" class="botao botao--secundario botao--mini" id="btnLimpar">Limpar</button>
+      </div>
+    </div>
+
+    <div class="barra-acoes">
+      <label class="selecao-tudo">
+        <input type="checkbox" id="marcarTodos">
+        <span id="resumoSelecao">Nenhum selecionado</span>
+      </label>
+      <div class="barra-acoes__botoes">
+        <button type="button" class="botao botao--secundario botao--mini" id="btnCsv">Baixar CSV</button>
+        <button type="button" class="botao botao--principal botao--mini" id="btnGerar" disabled>
+          Gerar imagens
+        </button>
+      </div>
+    </div>
+
+    <div id="statusPainel" class="aviso aviso--info oculto"></div>
+
+    <div class="cartao cartao--tabela">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th class="col-check"><span class="so-leitor">Selecionar</span></th>
+            <th>Nome</th>
+            <th>Empresa</th>
+            <th>Cargo</th>
+            <th>1ª âncora</th>
+            <th class="col-data">Respondido em</th>
+            <th class="col-acao"><span class="so-leitor">Ações</span></th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela"></tbody>
+      </table>
+      <p id="vazio" class="vazio oculto">Nenhuma resposta encontrada com esses filtros.</p>
+    </div>
+
+  </section>
+</main>
+
+<!-- Pré-visualização do gráfico -->
+<dialog id="dialogoGrafico" class="dialogo">
+  <div class="dialogo__topo">
+    <h3 id="tituloGrafico"></h3>
+    <button type="button" class="botao botao--secundario botao--mini" id="btnFecharDialogo">Fechar</button>
+  </div>
+  <canvas id="canvasPreview"></canvas>
+  <div class="dialogo__rodape">
+    <button type="button" class="botao botao--principal botao--mini" id="btnBaixarUm">Baixar PNG</button>
+  </div>
+</dialog>
+
+<footer class="rodape">
+  © <span id="ano"></span> WePeople Treinamento e Desenvolvimento Humano
+</footer>
+
+<script type="module" src="assets/js/admin.js"></script>
+</body>
+</html>

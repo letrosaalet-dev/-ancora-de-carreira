@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Preview do gráfico</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; padding:24px; background:#FAFAF8; font-family:Lexend,sans-serif; }
+  h1 { font-size:15px; color:#2A084B; margin:0 0 4px; }
+  p  { font-size:12px; color:#6B6580; margin:0 0 14px; }
+  canvas { display:block; border:1px solid #E6E2DC; border-radius:12px; background:#fff; }
+</style>
+</head>
+<body>
+<h1>Wedson — Âncora de Carreira</h1>
+<p>Dados reais da aba ADRI de "Média ancora.xlsx". Estilo de Vida = 7,8 (três notas 10) — o caso que o Excel cortava.</p>
+<canvas id="c"></canvas>
+<script type="module">
+import { desenharGrafico } from "./assets/js/grafico.js";
+
+const porAncora = {
+  1:[5,5,4,4,4],       // Técnica Funcional      → 4,4
+  2:[4,4,4,4,3],       // Competência Adm. Geral → 3,8
+  3:[3,3,3,2,2],       // Autonomia              → 2,6
+  4:[5,5,5,5,4],       // Segurança              → 4,8
+  5:[2,2,2,2,2],       // Criatividade           → 2,0
+  6:[5,5,5,5,5],       // Dedicação              → 5,0
+  7:[4,4,3,3,3],       // Desafio Puro           → 3,4
+  8:[10,10,10,6,3],    // Estilo de Vida         → 7,8
+};
+const respostas = new Array(40);
+for (const [ancora, notas] of Object.entries(porAncora)) {
+  notas.forEach((n, i) => { respostas[Number(ancora) - 1 + i * 8] = n; });
+}
+desenharGrafico(document.getElementById("c"), respostas);
+</script>
+</body>
+</html>
