@@ -64,6 +64,18 @@ no **Google Apps Script** de sempre. O painel só funciona com o Supabase ligado
 > os dados é a Row Level Security do `schema.sql`: qualquer pessoa **insere** uma
 > resposta, mas só quem está logado **lê**. Nunca use a chave `service_role` aqui.
 
+### Antes de fazer o merge para produção
+
+1. `config.js` preenchido com a URL e a chave **anon public**.
+2. Abrir o formulário, responder uma vez e conferir que **não aparece** o aviso
+   `[ancora] Supabase NAO configurado` no console (F12).
+3. Conferir que essa resposta de teste apareceu no painel — e apagá-la no
+   Supabase (**Table Editor → respostas**) depois.
+
+> Se o merge for feito com o `config.js` vazio, o formulário continua
+> funcionando, mas grava na planilha do Google e **o painel fica vazio**.
+> Não há histórico a migrar: a base começa limpa no Supabase.
+
 ---
 
 ## Gerar os gráficos

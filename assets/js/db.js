@@ -54,9 +54,15 @@ export async function salvarResposta(dados) {
     return registro;
   }
 
-  // Fallback Apps Script. Ele ignora campos que nao conhece, entao os
-  // extras (medias, versao) so passam a ser gravados quando o Code.gs
-  // for atualizado — sem quebrar nada nesse meio tempo.
+  // Fallback Apps Script — TEMPORARIO, so para o site nao ficar fora do ar
+  // enquanto o Supabase nao esta ligado. Grita no console porque a falha
+  // silenciosa aqui e traicoeira: a resposta e gravada com sucesso, mas na
+  // planilha do Google, e o painel (que le do Supabase) aparece vazio.
+  console.warn(
+    "[ancora] Supabase NAO configurado: gravando no Apps Script. " +
+    "Estas respostas NAO vao aparecer no painel. Preencha config.js."
+  );
+
   const resp = await fetch(CONFIG.appsScriptUrl, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
