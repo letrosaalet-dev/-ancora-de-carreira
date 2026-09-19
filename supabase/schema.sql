@@ -30,12 +30,12 @@ create table if not exists public.respostas (
   ancora_2 text,
   ancora_3 text,
 
-  constraint respostas_tem_40  check (array_length(respostas, 1) = 40),
+  -- Notas válidas: 1 a 6, ou 10 (as três destacadas pelo participante).
+  -- Sem subquery: o PostgreSQL não permite SELECT dentro de CHECK.
+  constraint respostas_tem_40 check (array_length(respostas, 1) = 40),
+  constraint respostas_sem_nulo check (array_position(respostas, null) is null),
   constraint respostas_na_faixa check (
-    not exists (
-      select 1 from unnest(respostas) v
-      where v is null or (v < 1 or (v > 6 and v <> 10))
-    )
+    respostas <@ array[1, 2, 3, 4, 5, 6, 10]::smallint[]
   )
 );
 
