@@ -177,15 +177,22 @@ function validarRespostas() {
 /* ─────────────── etapa 2 ─────────────── */
 
 function abrirDestaques() {
-  const { indices, nota } = candidatasDestaque(estado.respostas);
+  const { indices, nota, notaMinima } = candidatasDestaque(estado.respostas);
   estado.notaDestaque = nota;
   estado.destaques = [];
 
+  // Nomeia a maior nota que a pessoa REALMENTE usou (6, 5, 4...): assim o texto
+  // e o mesmo para quem nao deu nenhum 6, sem soar como erro dela. Quando a
+  // lista precisou descer de nota, o plural evita citar um numero que nao
+  // corresponde a todas as opcoes na tela.
   const alvo = Math.min(indices.length, QTD_DESTAQUES);
   el.textoDestaques.textContent =
-    nota === NOTA_MAX
-      ? `Entre as afirmações que você avaliou com ${NOTA_MAX}, escolha ${alvo} — as mais importantes para você.`
-      : `Nenhuma afirmação recebeu ${NOTA_MAX}. Entre as que você avaliou com ${nota}, sua nota mais alta, escolha ${alvo}.`;
+    (notaMinima === nota
+      ? `Estas são as afirmações que você avaliou com ${nota}, sua maior pontuação. `
+      : "Estas são as afirmações com as suas maiores pontuações. ") +
+    `Dentre elas, escolha ${alvo} ` +
+    (alvo === 1 ? "que será substituída" : "que serão substituídas") +
+    " pela nota 10.";
 
   el.listaDestaques.innerHTML = "";
   indices.forEach((indice) => {

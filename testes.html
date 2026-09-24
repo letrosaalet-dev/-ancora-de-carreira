@@ -67,8 +67,33 @@ teste("BUG ANTIGO: sem nenhuma nota 6, cai para a maior nota", () => {
 
 teste("com notas 6, candidatas sao apenas as 6", () => {
   const r = vetor(q => (q <= 4 ? 6 : 3));
-  const { indices, nota } = candidatasDestaque(r);
-  return (nota === 6 && indices.length === 4) || `nota=${nota} n=${indices.length}`;
+  const { indices, nota, notaMinima } = candidatasDestaque(r);
+  return (nota === 6 && notaMinima === 6 && indices.length === 4)
+    || `nota=${nota} min=${notaMinima} n=${indices.length}`;
+});
+
+teste("menos de 3 no topo: desce para a nota seguinte", () => {
+  // duas notas 4 e uma nota 3 no topo — o caso que antes dava so 2 notas 10
+  const r = vetor(q => (q <= 2 ? 4 : q === 3 ? 3 : 1));
+  const { indices, nota, notaMinima } = candidatasDestaque(r);
+  return (nota === 4 && notaMinima === 3 && JSON.stringify(indices) === "[0,1,2]")
+    || `nota=${nota} min=${notaMinima} i=${JSON.stringify(indices)}`;
+});
+
+teste("descida nunca para com menos de 3 candidatas", () => {
+  // so um 6 no topo: precisa descer duas vezes (6 -> 5 -> 4) para chegar a 3
+  const r = vetor(q => (q === 1 ? 6 : q === 2 ? 5 : q === 3 ? 4 : 1));
+  const { indices, notaMinima } = candidatasDestaque(r);
+  return (indices.length === 3 && notaMinima === 4)
+    || `min=${notaMinima} n=${indices.length}`;
+});
+
+teste("descida desempata junto: pega todos da nota que completou", () => {
+  // um 6 e quatro 5: entram os cinco, e a pessoa escolhe 3 entre eles
+  const r = vetor(q => (q === 1 ? 6 : q <= 5 ? 5 : 1));
+  const { indices, nota, notaMinima } = candidatasDestaque(r);
+  return (nota === 6 && notaMinima === 5 && indices.length === 5)
+    || `nota=${nota} min=${notaMinima} n=${indices.length}`;
 });
 
 teste("aplicarDestaques nao muta o original", () => {

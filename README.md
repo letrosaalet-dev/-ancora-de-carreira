@@ -17,6 +17,7 @@ interno para filtrar respostas e gerar os gráficos de todo mundo de uma vez.
 | Cálculo das 8 médias | na mão, no Excel | o site calcula e grava junto |
 | Gráficos | macro, 5 s por pessoa, pasta única | ZIP com todos, em um clique |
 | Sem nenhuma nota 6 | **travava**, não dava para enviar | cai para a maior nota, como o Excel manda |
+| Menos de 3 notas no topo | escolhia menos de 3, média saía mais baixa | desce para a nota seguinte até completar 3 |
 
 ---
 
@@ -25,6 +26,11 @@ interno para filtrar respostas e gerar os gráficos de todo mundo de uma vez.
 São 40 afirmativas em escala 1–6. Depois o participante escolhe **3** entre as
 de maior nota, e essas passam a valer **10** — exatamente a instrução da linha 51
 do `Ancora de Carreira.xls`.
+
+A tela de escolha lista as afirmativas empatadas na maior nota que a pessoa usou
+— 6, ou 5, ou 4, o que houver. Se menos de 3 empatarem no topo, a lista **desce
+para a nota seguinte** até haver 3 candidatas. Assim todo participante aplica as
+3 notas 10 e as médias ficam comparáveis entre si.
 
 Cada âncora é a **média de 5 afirmativas**, no padrão rotativo do Schein:
 
@@ -117,8 +123,9 @@ Trocar de backend no futuro = mexer só em `db.js` e `config.js`.
 
 ## Testes
 
-Abra `testes.html` no navegador. São 18 verificações do cálculo, do mapa das
-âncoras, do comportamento sem nota 6 e da geração do PNG. O título da aba vira
+Abra `testes.html` no navegador. São 21 verificações do cálculo, do mapa das
+âncoras, do comportamento sem nota 6, da descida quando faltam candidatas no
+topo e da geração do PNG. O título da aba vira
 `TESTES-OK` quando tudo passa.
 
 ## Publicação

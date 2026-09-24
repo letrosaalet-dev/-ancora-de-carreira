@@ -123,13 +123,31 @@ export function ranquear(respostas) {
  * A versao anterior do site so aceitava 6 e travava quem respondeu no
  * maximo 5 — por isso aqui caimos para a maior nota existente.
  *
- * @returns {{indices:number[], nota:number}} indices base 0.
+ * Se menos de QTD_DESTAQUES afirmativas empatarem no topo, descemos para a
+ * nota seguinte ate haver candidatas suficientes. Sem isso a pessoa aplicaria
+ * menos de 3 notas 10 e as medias dela sairiam mais baixas do que as de quem
+ * aplicou 3 — o instrumento deixaria de ser comparavel entre participantes.
+ *
+ * @returns {{indices:number[], nota:number, notaMinima:number}} indices base 0.
+ *   `nota` e a maior nota usada; `notaMinima` e a mais baixa que entrou na
+ *   lista. Sao iguais no caso normal, e so diferem quando houve descida.
  */
 export function candidatasDestaque(respostas) {
-  const maior = Math.max(...respostas.map(Number));
-  const nota = Math.min(maior, NOTA_MAX);
-  const indices = respostas.reduce((acc, v, i) => (Number(v) === nota ? [...acc, i] : acc), []);
-  return { indices, nota };
+  const notas = respostas.map(Number);
+  const distintas = [...new Set(notas)]
+    .filter((n) => Number.isFinite(n) && n <= NOTA_MAX)
+    .sort((a, b) => b - a);
+
+  const indices = [];
+  let notaMinima = NOTA_MAX;
+  for (const n of distintas) {
+    if (indices.length >= QTD_DESTAQUES) break;
+    notas.forEach((v, i) => { if (v === n) indices.push(i); });
+    notaMinima = n;
+  }
+
+  indices.sort((a, b) => a - b); // mantem a ordem original das afirmativas na tela
+  return { indices, nota: distintas[0] ?? NOTA_MAX, notaMinima };
 }
 
 /** Aplica a nota 10 nas afirmativas escolhidas, sem mutar o array original. */
