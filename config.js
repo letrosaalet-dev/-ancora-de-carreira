@@ -13,8 +13,10 @@
 
 export const CONFIG = {
   supabase: {
-    url: "",      // ex.: "https://xxxxxxxxxxxx.supabase.co"
-    anonKey: "",  // ex.: "eyJhbGciOi..."
+    // So o endereco do projeto, SEM /rest/v1 no fim: o SDK acrescenta esse
+    // caminho sozinho, e com ele aqui a URL sai duplicada e responde 404.
+    url: "https://behxkrznzorwmemyhqwu.supabase.co",
+    anonKey: "sb_publishable_CED-6KrgbplTd0Bo-ciCFA_d_wPqV1Z",
   },
 
   /** Endpoint atual, usado como backend enquanto o Supabase nao estiver ligado. */
