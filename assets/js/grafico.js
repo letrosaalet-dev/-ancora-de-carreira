@@ -90,8 +90,10 @@ export function desenharGrafico(canvas, respostas, opcoes = {}) {
     const topo = areaY + i * faixa + (faixa - alturaBarra) / 2;
     const comprimento = Math.max(paraX(d.media) - areaX, 0);
 
-    // nome da ancora, alinhado a direita junto da barra
-    ctx.fillStyle = "#2A084B";
+    // nome da ancora, alinhado a direita junto da barra. Preto, e nao o roxo
+    // da marca: o PNG tem fundo transparente e o roxo escuro sumia contra
+    // fundos escuros. Preto tambem casa com o rotulo de dados, ja preto.
+    ctx.fillStyle = "#000000";
     ctx.font = `500 15px ${o.fonte}`;
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
