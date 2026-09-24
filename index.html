@@ -1,93 +1,155 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Âncora de Carreira - WePeople</title>
-
-  <!-- Ligação com o arquivo de estilos -->
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Âncora de Carreira | WePeople</title>
+<meta name="description" content="Instrumento Âncora de Carreira (Edgar Schein) — WePeople.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/simbolo-wepeople.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Reddit+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
-
 <body>
-  <!-- Cabeçalho fixo, onde vai o logotipo e o título -->
-  <header class="site-header">
-    <div class="header-content">
-      <img src="logo trad.png" alt="Logo da WePeople" class="header-logo">
-      <h1>Questionário: Motivadores de Carreira</h1>
-    </div>
-  </header>
 
-  <main>
-    <!-- ETAPA 1 — Formulário principal -->
-    <section id="mainEvaluationSection" class="form-card">
-      <form id="evaluationForm">
-        <!-- Dados do participante -->
-        <fieldset class="client-info">
-          <legend>Seus Dados</legend>
-          <div class="form-group">
-            <label for="clientName">Nome completo:</label>
-            <input type="text" id="clientName" name="clientName" required>
-          </div>
-          <div class="form-group">
-            <label for="companyName">Empresa:</label>
-            <input type="text" id="companyName" name="companyName" required>
-          </div>
-          <div class="form-group">
-            <label for="clientRole">Cargo:</label>
-            <input type="text" id="clientRole" name="clientRole" required>
-          </div>
-        </fieldset>
-
-        <!-- Instrução e imagem com escala -->
-        <fieldset class="evaluation-questions">
-          <legend>Avalie as afirmações</legend>
-          <p class="evaluation-instruction">
-            Leia atentamente as sentenças abaixo e avalie o quanto cada afirmação se aplica a você, considerando a escala abaixo:
-          </p>
-          <div class="scale-image-wrapper">
-            <img src="escala ancora.png" alt="Escala de avaliação 1 a 6" class="scale-legend-image">
-          </div>
-
-          <!-- Aqui o JavaScript criará as perguntas dinamicamente -->
-          <div id="perguntasContainer"></div>
-        </fieldset>
-
-        <button type="submit">Enviar Avaliação</button>
-      </form>
-    </section>
-
-    <!-- ETAPA 2 — Seleção das afirmações nota 6 -->
-    <section id="selectionStepSection" class="form-card hidden">
-      <h2>Reforçando suas prioridades</h2>
-      <p>
-        Das afirmações que você avaliou com nota 6, selecione
-        as 3 que considera mais importantes para você,
-        será atribuido a elas a pontuação 10.
-      </p>
-      <div id="topScoresContainer"></div>
-
-      <button type="button" id="submitSelectionButton">
-        Confirmar e enviar avaliação final
-      </button>
-      <button type="button" id="backToEvaluationButton">Voltar</button>
-    </section>
-  </main>
-
-<!-- ETAPA 3 — agradeciemnto? -->
-<section id="thanksSection" class="hidden">
-  <div class="thanks-container">
-    <h2>Obrigada por preencher o questionário de motivadores de carreira!</h2>
-    <p>Qualquer dúvida, entre em contato com <a href="mailto:livia.costa@wepeople.com.br">livia.costa@wepeople.com.br</a></p>
+<header class="cabecalho">
+  <div class="cabecalho__interno">
+    <img src="assets/img/logo-wepeople.svg" alt="WePeople" class="cabecalho__logo">
+    <p class="cabecalho__titulo">
+      <strong>Âncora de Carreira</strong>
+      Edgar Schein
+    </p>
   </div>
-</section>
+</header>
+<div class="fio-marca"></div>
 
-  <!-- Rodapé -->
-  <footer>
-    <p>&copy; 2025 WePeople Treinamento e Desenvolvimento Humano. Todos os direitos reservados.</p>
-  </footer>
+<main>
 
-  <!-- Aqui, mais tarde, conectaremos o script.js -->
-  <script src="script.js"></script>
+  <!-- ETAPA 1 ------------------------------------------------- -->
+  <section id="etapaFormulario">
+
+    <div class="cartao abertura">
+      <span class="abertura__selo">Instrumento de autoconhecimento</span>
+      <h1>O que você não abriria mão na sua carreira?</h1>
+      <p>
+        A âncora de carreira é aquilo que você manteria se tivesse que escolher: o
+        conjunto de talentos, motivações e valores que orienta suas decisões
+        profissionais.
+      </p>
+      <p>
+        Não existe resposta certa ou errada — responda pensando em como você
+        realmente é, e não em como gostaria de ser.
+      </p>
+    </div>
+
+    <form id="formulario" novalidate>
+
+      <div class="cartao">
+        <h2 class="cartao__titulo">Seus dados</h2>
+        <p class="cartao__apoio">Usamos para identificar seu resultado na devolutiva.</p>
+
+        <div class="campo" id="campoNome">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" autocomplete="name" required>
+          <span class="campo__erro">Preencha seu nome completo.</span>
+        </div>
+
+        <div class="campo" id="campoEmpresa">
+          <label for="empresa">Empresa</label>
+          <input type="text" id="empresa" name="empresa" autocomplete="organization" required>
+          <span class="campo__erro">Preencha o nome da empresa.</span>
+        </div>
+
+        <div class="campo" id="campoCargo">
+          <label for="cargo">Cargo</label>
+          <input type="text" id="cargo" name="cargo" autocomplete="organization-title" required>
+          <span class="campo__erro">Preencha seu cargo.</span>
+        </div>
+      </div>
+
+      <div class="cartao">
+        <h2 class="cartao__titulo">As afirmações</h2>
+        <p class="cartao__apoio">
+          Leia atentamente as sentenças abaixo e avalie o quanto cada afirmação
+          se aplica a você, considerando a escala abaixo:
+        </p>
+
+        <div class="escala-guia" aria-hidden="true">
+          <span><b>1</b> Jamais se aplica a você</span>
+          <span><b>2 e 3</b> Ocasionalmente se aplica a você</span>
+          <span><b>4 e 5</b> Frequentemente se aplica a você</span>
+          <span><b>6</b> Sempre se aplica a você</span>
+        </div>
+
+        <div id="listaPerguntas"></div>
+      </div>
+
+    </form>
+  </section>
+
+  <!-- ETAPA 2 ------------------------------------------------- -->
+  <section id="etapaDestaques" class="oculto">
+    <div class="cartao">
+      <h2 class="cartao__titulo">Quase lá: suas prioridades</h2>
+      <p class="cartao__apoio" id="textoDestaques"></p>
+
+      <div class="aviso aviso--info">
+        <span aria-hidden="true">★</span>
+        <span>As demais afirmações mantêm a nota que você já deu.</span>
+      </div>
+
+      <div id="listaDestaques"></div>
+
+      <div id="erroDestaques" class="aviso aviso--alerta oculto"></div>
+    </div>
+  </section>
+
+  <!-- ETAPA 3 ------------------------------------------------- -->
+  <section id="etapaConclusao" class="oculto">
+    <div class="cartao conclusao">
+      <div class="conclusao__marca">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+      </div>
+      <h2>Respostas enviadas!</h2>
+      <p>
+        Obrigada por sua dedicação. Seu resultado será apresentado e
+        interpretado junto com a consultoria na devolutiva.
+      </p>
+      <p>
+        Dúvidas? Fale com
+        <a href="mailto:projetos@wepeople.com.br">projetos@wepeople.com.br</a>.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- BARRA FIXA --------------------------------------------- -->
+<div class="rodape-fixo" id="rodapeFixo">
+  <div class="rodape-fixo__interno">
+    <div class="progresso" id="blocoProgresso">
+      <div class="progresso__texto">
+        <span id="progressoRotulo">Respondidas</span>
+        <span><strong id="progressoAtual">0</strong> de <span id="progressoTotal">40</span></span>
+      </div>
+      <div class="progresso__trilho">
+        <div class="progresso__barra" id="progressoBarra"></div>
+      </div>
+    </div>
+    <button type="button" class="botao botao--secundario oculto" id="btnVoltar">Voltar</button>
+    <button type="button" class="botao botao--principal" id="btnAvancar">Continuar</button>
+  </div>
+</div>
+
+<footer class="rodape">
+  © <span id="ano"></span> WePeople Treinamento e Desenvolvimento Humano
+</footer>
+
+<script type="module" src="assets/js/form.js"></script>
 </body>
 </html>

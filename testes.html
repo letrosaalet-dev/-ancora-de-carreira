@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><title>Testes</title><meta name="robots" content="noindex, nofollow"></head>
+<body>
+<pre id="saida">rodando...</pre>
+<script type="module">
+import {
+  PERGUNTAS, ANCORAS, TOTAL_PERGUNTAS,
+  calcularMedias, ranquear, candidatasDestaque, aplicarDestaques,
+} from "./assets/js/ancora.js";
+import { gerarPng, nomeArquivo, desenharGrafico } from "./assets/js/grafico.js";
+import { montarRegistro } from "./assets/js/db.js";
+
+const linhas = [];
+let falhas = 0;
+const teste = (nome, fn) => {
+  try {
+    const r = fn();
+    if (r === true) linhas.push(`OK   ${nome}`);
+    else { falhas++; linhas.push(`FALHA ${nome} :: ${r}`); }
+  } catch (e) { falhas++; linhas.push(`ERRO ${nome} :: ${e.message}`); }
+};
+
+const vetor = (f) => Array.from({ length: 40 }, (_, i) => f(i + 1));
+
+teste("40 perguntas carregadas", () => PERGUNTAS.length === 40 || PERGUNTAS.length);
+teste("8 ancoras", () => ANCORAS.length === 8 || ANCORAS.length);
+teste("ancoras cobrem 1..40 sem repetir", () => {
+  const t = ANCORAS.flatMap(a => a.questoes).sort((a, b) => a - b);
+  return JSON.stringify(t) === JSON.stringify([...Array(40)].map((_, i) => i + 1)) || JSON.stringify(t);
+});
+
+teste("media simples: tudo 5 da 5 em todas", () => {
+  const m = calcularMedias(vetor(() => 5));
+  return m.every(x => x.media === 5) || JSON.stringify(m);
+});
+
+teste("Tecnica Funcional usa 1,9,17,25,33", () => {
+  const r = vetor(q => ([1, 9, 17, 25, 33].includes(q) ? 6 : 1));
+  const m = calcularMedias(r).find(x => x.id === "tecnica_funcional");
+  return m.media === 6 || m.media;
+});
+
+teste("Estilo de Vida usa 8,16,24,32,40", () => {
+  const r = vetor(q => ([8, 16, 24, 32, 40].includes(q) ? 6 : 1));
+  const m = calcularMedias(r).find(x => x.id === "estilo_vida");
+  return m.media === 6 || m.media;
+});
+
+teste("ranquear ordena do maior para o menor", () => {
+  const r = vetor(q => ([8, 16, 24, 32, 40].includes(q) ? 6 : 1));
+  const top = ranquear(r);
+  return (top[0].id === "estilo_vida" && top[0].posicao === 1) || JSON.stringify(top[0]);
+});
+
+teste("empate mantem ordem do Excel (estavel)", () => {
+  const a = ranquear(vetor(() => 4)).map(x => x.id);
+  const b = ranquear(vetor(() => 4)).map(x => x.id);
+  return (JSON.stringify(a) === JSON.stringify(b) && a[0] === "tecnica_funcional") || JSON.stringify(a);
+});
+
+// --- o bug que existia em producao ---
+teste("BUG ANTIGO: sem nenhuma nota 6, cai para a maior nota", () => {
+  const { indices, nota } = candidatasDestaque(vetor(() => 5));
+  return (nota === 5 && indices.length === 40) || `nota=${nota} n=${indices.length}`;
+});
+
+teste("com notas 6, candidatas sao apenas as 6", () => {
+  const r = vetor(q => (q <= 4 ? 6 : 3));
+  const { indices, nota, notaMinima } = candidatasDestaque(r);
+  return (nota === 6 && notaMinima === 6 && indices.length === 4)
+    || `nota=${nota} min=${notaMinima} n=${indices.length}`;
+});
+
+teste("menos de 3 no topo: desce para a nota seguinte", () => {
+  // duas notas 4 e uma nota 3 no topo — o caso que antes dava so 2 notas 10
+  const r = vetor(q => (q <= 2 ? 4 : q === 3 ? 3 : 1));
+  const { indices, nota, notaMinima } = candidatasDestaque(r);
+  return (nota === 4 && notaMinima === 3 && JSON.stringify(indices) === "[0,1,2]")
+    || `nota=${nota} min=${notaMinima} i=${JSON.stringify(indices)}`;
+});
+
+teste("descida nunca para com menos de 3 candidatas", () => {
+  // so um 6 no topo: precisa descer duas vezes (6 -> 5 -> 4) para chegar a 3
+  const r = vetor(q => (q === 1 ? 6 : q === 2 ? 5 : q === 3 ? 4 : 1));
+  const { indices, notaMinima } = candidatasDestaque(r);
+  return (indices.length === 3 && notaMinima === 4)
+    || `min=${notaMinima} n=${indices.length}`;
+});
+
+teste("descida desempata junto: pega todos da nota que completou", () => {
+  // um 6 e quatro 5: entram os cinco, e a pessoa escolhe 3 entre eles
+  const r = vetor(q => (q === 1 ? 6 : q <= 5 ? 5 : 1));
+  const { indices, nota, notaMinima } = candidatasDestaque(r);
+  return (nota === 6 && notaMinima === 5 && indices.length === 5)
+    || `nota=${nota} min=${notaMinima} n=${indices.length}`;
+});
+
+teste("aplicarDestaques nao muta o original", () => {
+  const orig = vetor(() => 5);
+  const novo = aplicarDestaques(orig, [0, 1, 2]);
+  return (orig[0] === 5 && novo[0] === 10 && novo[3] === 5) || `${orig[0]} ${novo[0]}`;
+});
+
+teste("3 notas 10 na mesma ancora levam a media a 8.4", () => {
+  const r = vetor(q => ([1, 9, 17].includes(q) ? 10 : ([25, 33].includes(q) ? 6 : 1)));
+  const m = calcularMedias(r).find(x => x.id === "tecnica_funcional");
+  return Math.abs(m.media - 8.4) < 1e-9 || m.media;
+});
+
+teste("montarRegistro traz as 8 medias e o top 3", () => {
+  const reg = montarRegistro({
+    nome: " Ana Silva ", empresa: " Farm ", cargo: " Gerente ",
+    respostas: vetor(q => ([8, 16, 24, 32, 40].includes(q) ? 6 : 2)),
+  });
+  const temMedias = ANCORAS.every(a => typeof reg[`media_${a.id}`] === "number");
+  return (temMedias && reg.nome === "Ana Silva" && reg.ancora_1 === "Estilo de Vida"
+    && reg.versao_instrumento === "2026.1") || JSON.stringify(reg).slice(0, 200);
+});
+
+teste("nomeArquivo tira acento e vira padrao da skill", () =>
+  nomeArquivo("Aníbal Júnior", "Inpasa") === "Inpasa_Anibal_Junior.png"
+  || nomeArquivo("Aníbal Júnior", "Inpasa"));
+
+teste("nomeArquivo aguenta campo vazio", () =>
+  nomeArquivo("", "") === "SemEmpresa_SemNome.png" || nomeArquivo("", ""));
+
+teste("calcularMedias rejeita tamanho errado", () => {
+  try { calcularMedias([1, 2, 3]); return "deixou passar"; }
+  catch { return true; }
+});
+
+// --- canvas de verdade ---
+teste("desenharGrafico devolve as 8 ancoras ranqueadas", () => {
+  const c = document.createElement("canvas");
+  const d = desenharGrafico(c, vetor(() => 4));
+  return (d.length === 8 && c.width > 0) || `${d.length} ${c.width}`;
+});
+
+const saida = document.getElementById("saida");
+const png = await gerarPng(vetor(q => (q % 6) + 1));
+linhas.push(png && png.size > 1000 ? `OK   gerarPng produz PNG (${png.size} bytes)`
+  : `FALHA gerarPng (${png && png.size})`);
+if (!png || png.size <= 1000) falhas++;
+
+linhas.push("");
+linhas.push(falhas === 0 ? `=== TODOS OS ${linhas.filter(l => l.startsWith("OK")).length} TESTES PASSARAM ===`
+  : `=== ${falhas} FALHA(S) ===`);
+saida.textContent = linhas.join("\n");
+document.title = falhas === 0 ? "TESTES-OK" : "TESTES-FALHOU";
+</script>
+</body>
+</html>

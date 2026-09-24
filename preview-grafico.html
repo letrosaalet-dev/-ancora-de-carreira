@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exemplo do gráfico | Âncora de Carreira</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/simbolo-wepeople.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; padding:24px; background:#FAFAF8; font-family:Lexend,system-ui,sans-serif; }
+  .caixa { max-width:1060px; margin:0 auto; }
+  h1 { font-size:16px; color:#2A084B; margin:0 0 4px; }
+  p  { font-size:13px; color:#6B6580; margin:0 0 16px; line-height:1.5; }
+  canvas { display:block; width:100%; height:auto; border:1px solid #E6E2DC; border-radius:12px; background:#fff; }
+</style>
+</head>
+<body>
+<div class="caixa">
+  <h1>Exemplo do gráfico gerado</h1>
+  <p>
+    Dados fictícios, só para conferir o visual. É este PNG que sai no ZIP —
+    com fundo transparente, para entrar no placeholder <b>ANCORA</b> do VEXEC.
+    Repare que o eixo foi até 8: quando as três notas 10 caem na mesma âncora a
+    média passa de 7, e o gráfico do Excel cortava esses casos.
+  </p>
+  <canvas id="c"></canvas>
+</div>
+<script type="module">
+import { desenharGrafico } from "./assets/js/grafico.js";
+
+// Notas fictícias, montadas para cair numa média conhecida por âncora.
+const porAncora = {
+  1: [5, 5, 4, 4, 4],      // Técnica Funcional      -> 4,4
+  2: [4, 4, 4, 4, 3],      // Competência Adm. Geral -> 3,8
+  3: [3, 3, 3, 2, 2],      // Autonomia              -> 2,6
+  4: [5, 5, 5, 5, 4],      // Segurança              -> 4,8
+  5: [2, 2, 2, 2, 2],      // Criatividade           -> 2,0
+  6: [5, 5, 5, 5, 5],      // Dedicação              -> 5,0
+  7: [4, 4, 3, 3, 3],      // Desafio Puro           -> 3,4
+  8: [10, 10, 10, 6, 3],   // Estilo de Vida         -> 7,8
+};
+const respostas = new Array(40);
+for (const [ancora, notas] of Object.entries(porAncora)) {
+  notas.forEach((n, i) => { respostas[Number(ancora) - 1 + i * 8] = n; });
+}
+desenharGrafico(document.getElementById("c"), respostas);
+</script>
+</body>
+</html>
