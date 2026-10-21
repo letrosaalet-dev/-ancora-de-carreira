@@ -2,13 +2,14 @@
  * grafico.js — desenha o grafico de ancoras num <canvas> e devolve PNG.
  *
  * Reproduz o grafico que a macro "DeixarGrafRoxo" produzia no Excel:
- *   barras horizontais (barDir="bar"), ancoras ranqueadas, eixo 0..7,
+ *   barras horizontais (barDir="bar"), ancoras ranqueadas, eixo 0..8,
  *   gap de 50%, gradiente vertical roxo claro no centro / escuro nas bordas,
  *   rotulos em negrito preto, sem titulo e com fundo transparente.
  *
- * Diferenca proposital: o eixo cresce alem de 7 quando alguma media passa
- * disso. No Excel o maximo era fixo em 7 e as medias altas ficavam cortadas
- * (a planilha "Media ancora.xlsx" tem 7,8 e 7,4 clipados).
+ * Diferenca proposital: o eixo e fixo em 8, nao em 7 como no Excel. 8 e a
+ * maior media possivel (3 notas 10 na mesma ancora = 8,4, arredondado para
+ * baixo) — assim todo grafico sai na mesma escala, em vez de variar conforme
+ * a pessoa.
  */
 
 import { ranquear } from "./ancora.js";
@@ -25,7 +26,7 @@ const PADRAO = {
   margemTopo: 24,
   margemBase: 48,
   gapWidth: 0.5, // 50%, igual ao ChartGroups(1).GapWidth = 50
-  eixoMax: 7,
+  eixoMax: 8,
   fonte: "Lexend, 'Segoe UI', Arial, sans-serif",
 };
 
@@ -47,10 +48,7 @@ function gradienteBarra(ctx, topo, altura) {
 export function desenharGrafico(canvas, respostas, opcoes = {}) {
   const o = { ...PADRAO, ...opcoes };
   const dados = ranquear(respostas); // maior no topo
-
-  // O eixo vai ate 7, mas acompanha se alguma media estourar.
-  const maiorMedia = Math.max(...dados.map((d) => d.media));
-  const eixoMax = Math.max(o.eixoMax, Math.ceil(maiorMedia));
+  const eixoMax = o.eixoMax;
 
   const ctx = canvas.getContext("2d");
   canvas.width = o.largura * o.escala;

@@ -50,8 +50,9 @@ validadas rodando o próprio Excel com vetores de teste: **32/32 bateram**.
 
 > **Atenção à escala do gráfico.** Se as 3 notas 10 caírem na mesma âncora, a
 > média chega a **8,4**. O gráfico do Excel travava o eixo em 7 e cortava esses
-> casos (a `Média ancora.xlsx` tem 7,8 e 7,4 cortados). Aqui o eixo vai até 7 e
-> se estica sozinho quando precisa.
+> casos (a `Média ancora.xlsx` tem 7,8 e 7,4 cortados). Aqui o eixo é fixo em
+> **8** em todo gráfico — a maior média possível, arredondada para baixo —
+> para que todas as imagens saiam na mesma escala.
 
 ---
 
