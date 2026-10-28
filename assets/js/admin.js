@@ -4,8 +4,8 @@
  * Fluxo: login → lista as respostas → filtra → seleciona → "Gerar imagens",
  * que baixa um unico ZIP `ancora_AAAA-MM-DD.zip` com um PNG por pessoa.
  *
- * Os PNGs saem nomeados `Empresa_Nome_Sobrenome.png`, que e exatamente o
- * padrao que a skill `assessment-instrumentos` procura (`*_Nome_Sobrenome.png`)
+ * Os PNGs saem nomeados `Ancora_Nome_Sobrenome.png`, que e exatamente o
+ * padrao que a skill `assessment-instrumentos` procura (`ancora*.png`)
  * depois que voce distribui os arquivos nas pastas dos participantes.
  */
 
@@ -206,7 +206,7 @@ $("btnFecharDialogo").addEventListener("click", () => $("dialogoGrafico").close(
 $("btnBaixarUm").addEventListener("click", async () => {
   if (!regAtual) return;
   const blob = await gerarPng(regAtual.respostas);
-  baixar(blob, nomeArquivo(regAtual.nome, regAtual.empresa));
+  baixar(blob, nomeArquivo(regAtual.nome));
 });
 
 /* ─────────────── gerar ZIP ─────────────── */
@@ -231,7 +231,7 @@ $("btnGerar").addEventListener("click", async () => {
       const blob = await gerarPng(reg.respostas);
 
       // dois participantes homônimos não podem sobrescrever um ao outro
-      let nome = nomeArquivo(reg.nome, reg.empresa);
+      let nome = nomeArquivo(reg.nome);
       const vezes = (usados.get(nome) || 0) + 1;
       usados.set(nome, vezes);
       if (vezes > 1) nome = nome.replace(/\.png$/, `_${vezes}.png`);

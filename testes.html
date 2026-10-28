@@ -119,11 +119,11 @@ teste("montarRegistro traz as 8 medias e o top 3", () => {
 });
 
 teste("nomeArquivo tira acento e vira padrao da skill", () =>
-  nomeArquivo("Aníbal Júnior", "Inpasa") === "Inpasa_Anibal_Junior.png"
-  || nomeArquivo("Aníbal Júnior", "Inpasa"));
+  nomeArquivo("Aníbal Júnior") === "Ancora_Anibal_Junior.png"
+  || nomeArquivo("Aníbal Júnior"));
 
 teste("nomeArquivo aguenta campo vazio", () =>
-  nomeArquivo("", "") === "SemEmpresa_SemNome.png" || nomeArquivo("", ""));
+  nomeArquivo("") === "Ancora_SemNome.png" || nomeArquivo(""));
 
 teste("calcularMedias rejeita tamanho errado", () => {
   try { calcularMedias([1, 2, 3]); return "deixou passar"; }

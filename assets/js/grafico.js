@@ -141,10 +141,10 @@ export async function gerarPng(respostas, opcoes = {}) {
 
 /**
  * Nome do arquivo no padrao que a skill `assessment-instrumentos` procura
- * (`*_Nome_Sobrenome.png`), para que ela ache a imagem sozinha depois que
- * voce mover para a pasta do participante.
+ * (`ancora*.png`), para que ela ache a imagem sozinha dentro da pasta do
+ * participante — sem depender do nome bater certinho com o da pasta.
  */
-export function nomeArquivo(nome, empresa) {
+export function nomeArquivo(nome) {
   const limpar = (s) =>
     String(s || "")
       .normalize("NFD")
@@ -152,7 +152,6 @@ export function nomeArquivo(nome, empresa) {
       .replace(/[^\w\s-]/g, "")
       .trim()
       .replace(/\s+/g, "_");
-  const emp = limpar(empresa) || "SemEmpresa";
   const pes = limpar(nome) || "SemNome";
-  return `${emp}_${pes}.png`;
+  return `Ancora_${pes}.png`;
 }
